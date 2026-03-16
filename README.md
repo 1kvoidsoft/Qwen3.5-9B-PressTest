@@ -1,7 +1,34 @@
-根据你的目录路径 `F:\Projects\Qwen3_5_9B_Benchmark` 和 RTX 4060 Ti，以下是完整的安装指令序列：
+# Qwen3.5-9B Press Test
+
+本地运行 Qwen3.5-9B 的 VRAM 感知型流式对话脚本，附自动化压测工具，适用于 NVIDIA RTX 40/50 系显卡。
+
+- `qwen35_console_chatbot_streaming.py` — 交互式对话，支持流式输出与思考模式
+- `qwen35_stress_test.py` — 批量任务压测，监控 VRAM 并输出 JSON 报告
+
+## 特性
+
+- **流式输出** — TextIteratorStreamer 实现逐 token 打印
+- **思考模式** — 支持 `<think>` 块显示/隐藏，用 `--thinking` 开启
+- **VRAM 精细管理** — 历史记录截断 + `empty_cache()`，全程 reserved ≤ 9.9 GB
+- **多轮对话上下文控制** — `--max_rounds` / `--store_chars` 防止 prompt 爆炸
+
+## 环境要求
+
+- NVIDIA RTX 40/50 系（或任意 ≥ 12 GB VRAM 的 CUDA 显卡）
+- Python 3.12 · Transformers 5.x · bitsandbytes 0.49+
+- PyTorch 安装版本因卡而异：
+  - RTX 40 系 → `torch 2.5.1+cu121`
+  - RTX 50 系 → `torch 2.7+cu128`（需 CUDA 12.8+，尚未经过实机验证）
+```bash
+# RTX 40 系
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# RTX 50 系
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+```
 
 ---
-
+## 部署环境
 ## 1 进入项目目录
 
 ```powershell
